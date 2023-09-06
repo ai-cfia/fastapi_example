@@ -1,0 +1,25 @@
+# Python artifacts
+__pycache__/
+*.py[cod]
+*.pyo
+*.egg-info/
+dist/
+build/
+*.egg
+
+# VSCode
+.vscode/
+
+# Dev Containers
+.devcontainer/
+
+# Docker
+Dockerfile
+.dockerignore
+*.dockerfile
+
+# macOS
+.DS_Store
+
+# IDEs
+.idea/
