@@ -1,0 +1,11 @@
+{
+  "name": "Python 3",
+  // More info on this configuration: https://containers.dev/implementors/json_reference/#image-specific
+  "build": {
+    "dockerfile": "../Dockerfile",
+    "context": ".."
+  },
+
+  "forwardPorts": [5001],
+  "postStartCommand": "python /workspaces/fastapi_example/src/main.py"
+}

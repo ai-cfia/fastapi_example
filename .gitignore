@@ -10,9 +10,6 @@ build/
 # VSCode
 .vscode/
 
-# Dev Containers
-.devcontainer/
-
 # Docker
 Dockerfile
 .dockerignore
