@@ -10,11 +10,6 @@ build/
 # VSCode
 .vscode/
 
-# Docker
-Dockerfile
-.dockerignore
-*.dockerfile
-
 # macOS
 .DS_Store
 
