@@ -1,4 +1,5 @@
 name: Docker GCP deployment
+
 on:
     push:
         branches:
@@ -6,6 +7,16 @@ on:
     workflow_dispatch:
 
 jobs:
+    prepare:
+        runs-on: ubuntu-latest
+        steps:
+        - uses: actions/checkout@v3
+        - name: List directory
+          run: |
+            pwd
+            ls -al
+
     lint-test:
+        needs: prepare
         uses: ai-cfia/github-workflows/.github/workflows/workflow-lint-test-python.yml@main
         secrets: inherit
