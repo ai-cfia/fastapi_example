@@ -8,19 +8,20 @@ on:
 
 jobs:
     prepare:
-        runs-on: ubuntu-latest
+         runs-on: ubuntu-latest
         steps:
         - uses: actions/checkout@v3
+        - name: Set up Python
+          uses: actions/setup-python@v4
+          with:
+            python-version: '3.11.x'
+            cache: 'pip'
         - name: Install dependencies
           run: |
             python -m pip install --upgrade pip
-            pip install ruff pytest httpx
+            pip install ruff pytest httpx # If httpx is needed in the main workflow, retain it here.
             if [ -f requirements.txt ]; then pip install -r requirements.txt; fi
-        - name: Check httpx installation
-          run: |
-            python -m pip show httpx
-
-
+            
     lint-test:
         needs: prepare
         uses: ai-cfia/github-workflows/.github/workflows/workflow-lint-test-python.yml@main
