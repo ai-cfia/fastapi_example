@@ -1,5 +1,8 @@
 name: Docker GCP deployment
 on:
+    push:
+        branches:
+          - github-action-workflow
     workflow_dispatch:
 
 jobs:
