@@ -7,5 +7,5 @@
   },
 
   "forwardPorts": [5001],
-  "postStartCommand": "python /workspaces/fastapi_example/src/main.py"
+  "postStartCommand": "python /workspaces/fastapi-example/src/main.py"
 }
