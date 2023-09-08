@@ -1,6 +1,5 @@
 from datetime import datetime
 from fastapi import FastAPI
-import uvicorn
 
 app = FastAPI()
 
