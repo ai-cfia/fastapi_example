@@ -10,6 +10,14 @@ jobs:
      lint-test:
          uses: ai-cfia/github-workflows/.github/workflows/workflow-lint-test-python.yml@main
          secrets: inherit
+         
+     display-url:
+        runs-on: ubuntu-latest
+        steps:
+        - name: Display constructed URL
+          run: | 
+            echo "Constructed URL: ${{ secrets.LOUIS_REGISTRY }}/${{ github.event.repository.name }}:${{ github.sha }}"
+         
      build:
          needs: lint-test
          uses: ai-cfia/github-workflows/.github/workflows/workflow-build-container.yml@main
