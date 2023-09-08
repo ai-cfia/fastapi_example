@@ -7,14 +7,24 @@ on:
     workflow_dispatch:
 
 jobs:       
-     lint-test:
+    lint-test:
          uses: ai-cfia/github-workflows/.github/workflows/workflow-lint-test-python.yml@main
          secrets: inherit
          
-     build:
-         needs: lint-test
-         uses: ai-cfia/github-workflows/.github/workflows/workflow-build-container.yml@main
-         with:
-           container-name: ${{ github.event.repository.name }}
-           tag: ${{ github.sha }}
-         secrets: inherit
+    build:
+        needs: lint-test
+        runs-on: ubuntu-latest
+        steps:
+        - name: Authenticate with Google Cloud
+          run: |
+            echo "$GCP_SA_KEY" > gcp-sa-key.json
+            gcloud auth activate-service-account --key-file=gcp-sa-key.json
+          env:
+            GCP_SA_KEY: ${{ secrets.LOUIS_GAR_JSON_KEY }}
+            
+        - name: Build and Push
+          uses: ai-cfia/github-workflows/.github/workflows/workflow-build-container.yml@main
+          with:
+            container-name: ${{ github.event.repository.name }}
+            tag: ${{ github.sha }}
+            secrets: inherit
