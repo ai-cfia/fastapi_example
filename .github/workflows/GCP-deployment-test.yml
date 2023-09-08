@@ -11,7 +11,6 @@ jobs:
         uses: ai-cfia/github-workflows/.github/workflows/workflow-lint-test-python.yml@main
         secrets: inherit
     build:
-        if: github.ref == 'refs/heads/main'
         needs: lint-test
         uses: ai-cfia/github-workflows/.github/workflows/workflow-build-container.yml@main
         with:
