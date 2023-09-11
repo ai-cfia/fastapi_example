@@ -43,7 +43,7 @@ jobs:
         with:
           context: .
           push: true
-          tags: ${{ secrets.LOUIS_REGISTRY }}/${{inputs.container-name}}:${{inputs.tag}}
+          tags: ${{ secrets.LOUIS_REGISTRY }}/${{ github.repository }}:${{ github.sha }}
           cache-from: type=local,src=/tmp/.buildx-cache
           cache-to: type=local,dest=/tmp/.buildx-cache-new
       - name: Move cache
