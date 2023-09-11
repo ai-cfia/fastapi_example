@@ -11,25 +11,24 @@ jobs:
     uses: ai-cfia/github-workflows/.github/workflows/workflow-lint-test-python.yml@main
     secrets: inherit
 
-  build-and-deploy:
-    needs: lint-test
+  build:
+    uses: ./.github/workflows/workflow-build-container.yml
+    with:
+      container-name: 'fastapi-example'
+      tag: ${{ github.sha }}
+
+  deploy:
+    needs: build
     runs-on: ubuntu-latest
     steps:
-      - name: Use Reusable Build Workflow
-        uses: ./.github/workflows/workflow-build-container.yml
-        with:
-          container-name: ${{ github.event.repository.name }}
-          tag: ${{ github.event.after }}
-          
       - name: Authenticate to Google Cloud
         uses: google-github-actions/auth@v1
         with:
           credentials_json: ${{ secrets.LOUIS_GAR_JSON_KEY }}
-          
       - name: Deploy to Cloud Run
         uses: google-github-actions/deploy-cloudrun@v1.0.2
         with:
-          image: ${{ secrets.LOUIS_REGISTRY }}/fastapi-example:${{ github.event.after }}
+          image: ${{ secrets.LOUIS_REGISTRY }}/fastapi-example:${{ github.sha }}
           service: fastapi-example
           region: ${{ secrets.GCP_CLOUDRUN_REGION }}
           env_vars: ${{ secrets.ENV }}
