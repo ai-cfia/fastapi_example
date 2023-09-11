@@ -43,7 +43,7 @@ jobs:
         with:
           context: .
           push: true
-          tags: northamerica-northeast1-docker.pkg.dev/cfia-ai-lab-gcp-project/cfia-ai-lab-docker-repo/fastapi-example:${{ github.sha }}
+          tags: northamerica-northeast1-docker.pkg.dev/cfia-ai-lab-gcp-project/cfia-ai-lab-docker-repo/fastapi-example:latest
           cache-from: type=local,src=/tmp/.buildx-cache
           cache-to: type=local,dest=/tmp/.buildx-cache-new
       - name: Move cache
