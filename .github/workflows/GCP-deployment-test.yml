@@ -7,18 +7,50 @@ on:
   workflow_dispatch:
 
 jobs:
-  test:
-    uses: ./.github/workflows/workflow-lint-test-python.yml
+  lint-test:
+    uses: ai-cfia/github-workflows/.github/workflows/workflow-lint-test-python.yml@main
+    secrets: inherit
 
   build:
-    needs: test
-    uses: ./.github/workflows/workflow-build-container.yml
-    with:
-      container-name: fastapi-example
-      tag: latest
-
-  #deploy:
-   # needs: build
-    #uses: ./.github/workflows/workflow-deploy.yml@main
-    #with:
-     # image: northamerica-northeast1-docker.pkg.dev/cfia-ai-lab-gcp-project/cfia-ai-lab-docker-repo/fastapi-example:latest
+    needs: lint-test
+    runs-on: ubuntu-latest
+    steps:
+      - name: Login to GAR
+        uses: docker/login-action@v2
+        with:
+          registry: ${{ secrets.GCP_CLOUDRUN_REGION }}-docker.pkg.dev
+          username: _json_key
+          password: ${{ secrets.LOUIS_GAR_JSON_KEY }}
+      - uses: actions/checkout@v2 
+      - name: Set up Docker Buildx
+        uses: docker/setup-buildx-action@v1
+      - name: Cache Docker layers
+        uses: actions/cache@v2
+        with:
+          path: /tmp/.buildx-cache
+          key: ${{ runner.os }}-${{ github.event.repository.name }}-${{ github.sha }}
+          restore-keys: |
+            ${{ runner.os }}-${{ github.event.repository.name }}
+      - name: Build the Docker image
+        uses: docker/build-push-action@v4
+        with:
+          context: .
+          push: true
+          tags: ${{ secrets.LOUIS_REGISTRY }}/${{ inputs.container-name }}:${{ inputs.tag }}
+          cache-from: type=local,src=/tmp/.buildx-cache
+          cache-to: type=local,dest=/tmp/.buildx-cache-new
+      - name: Move cache
+        run: |
+          rm -rf /tmp/.buildx-cache
+          mv /tmp/.buildx-cache-new /tmp/.buildx-cache
+      - name: Authenticate to Google Cloud
+        uses: google-github-actions/auth@v1
+        with:
+          credentials_json: ${{ secrets.LOUIS_GAR_JSON_KEY }}
+      - name: Deploy to Cloud Run
+        uses: google-github-actions/deploy-cloudrun@v1.0.2
+        with:
+          image: northamerica-northeast1-docker.pkg.dev/cfia-ai-lab-gcp-project/cfia-ai-lab-docker-repo/fastapi-example:latest
+          service: fastapi-example
+          region: ${{ secrets.GCP_CLOUDRUN_REGION }}
+          env_vars: ${{ secrets.ENV }}
