@@ -15,3 +15,5 @@ build/
 
 # IDEs
 .idea/
+
+.cfia-ai-lab-gcp-project-sa-key.json
