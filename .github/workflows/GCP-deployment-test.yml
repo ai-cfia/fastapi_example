@@ -5,6 +5,13 @@ on:
     branches:
       - github-action-workflow
   workflow_dispatch:
+    inputs:
+      container-name:
+        description: 'Container Name'
+        required: true
+      tag:
+        description: 'Tag'
+        required: true
 
 jobs:
   lint-test:
@@ -36,7 +43,7 @@ jobs:
         with:
           context: .
           push: true
-          tags: ${{ secrets.LOUIS_REGISTRY }}/${{ inputs.container-name }}:${{ inputs.tag }}
+          tags: ${{ secrets.LOUIS_REGISTRY }}/${{inputs.container-name}}:${{inputs.tag}}
           cache-from: type=local,src=/tmp/.buildx-cache
           cache-to: type=local,dest=/tmp/.buildx-cache-new
       - name: Move cache
@@ -50,7 +57,7 @@ jobs:
       - name: Deploy to Cloud Run
         uses: google-github-actions/deploy-cloudrun@v1.0.2
         with:
-          image: northamerica-northeast1-docker.pkg.dev/cfia-ai-lab-gcp-project/cfia-ai-lab-docker-repo/fastapi-example:latest
+          image: ${{ secrets.LOUIS_REGISTRY }}/${{inputs.container-name}}:${{inputs.tag}}
           service: fastapi-example
           region: ${{ secrets.GCP_CLOUDRUN_REGION }}
           env_vars: ${{ secrets.ENV }}
