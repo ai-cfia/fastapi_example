@@ -50,7 +50,7 @@ jobs:
       - name: Deploy to Cloud Run
         uses: google-github-actions/deploy-cloudrun@v1.0.2
         with:
-          image: ${{ secrets.LOUIS_REGISTRY }}/${{inputs.container-name}}:${{inputs.tag}}
+          image: northamerica-northeast1-docker.pkg.dev/cfia-ai-lab-gcp-project/cfia-ai-lab-docker-repo/fastapi-example:${{ github.sha }}
           service: fastapi-example
           region: ${{ secrets.GCP_CLOUDRUN_REGION }}
           env_vars: ${{ secrets.ENV }}
