@@ -39,9 +39,10 @@ python -m unittest discover -s tests
 
 1. Open the project in VSCode.
 2. Open a VSCode Terminal at the root of the project. Then run these commands:
-   ```bash
-   docker build -t fastapi-app .
-   docker run -d -p <EXTERNAL_PORT>:<INTERNAL_PORT> fastapi-app
+```bash
+docker build -t fastapi-app .
+docker run -d -p <EXTERNAL_PORT>:<INTERNAL_PORT> -e PORT=<INTERNAL_PORT> fastapi-app
+```
 - <EXTERNAL_PORT>: The port on your machine/host you want to access the app through.
 - <INTERNAL_PORT>: The port inside the Docker container (set in the `Dockerfile`).
 3. Visit `http://localhost:<EXTERNAL_PORT>/` in your browser to see the current Unix timestamp returned by the FastAPI app.
