@@ -21,17 +21,8 @@ jobs:
 
   deploy:
     needs: build
-    runs-on: ubuntu-latest
-    steps:
-      - name: Authenticate to Google Cloud
-        uses: google-github-actions/auth@v1
-        with:
-          credentials_json: ${{ secrets.LOUIS_GAR_JSON_KEY }}
-      
-      - name: Deploy to Cloud Run
-        uses: google-github-actions/deploy-cloudrun@v1.0.2
-        with:
-          image: northamerica-northeast1-docker.pkg.dev/cfia-ai-lab-gcp-project/cfia-ai-lab-docker-repo/fastapi-example:${{ github.sha }}
-          service: fastapi-example
-          region: ${{ secrets.GCP_CLOUDRUN_REGION }}
-          env_vars: ${{ secrets.ENV }}
+    uses: ./.github/workflows/workflow-deploy-gcp.yml
+    with:
+      container-name: ${{ github.event.repository.name }}
+      tag: ${{ github.sha }}
+    secrets: inherit
