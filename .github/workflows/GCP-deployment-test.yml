@@ -12,7 +12,6 @@ jobs:
     secrets: inherit
 
   build:
-    if: github.ref == 'refs/heads/main'
     needs: lint-test
     uses: ./.github/workflows/workflow-build-container.yml
     with:
