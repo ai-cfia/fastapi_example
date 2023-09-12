@@ -12,10 +12,13 @@ jobs:
     secrets: inherit
 
   build:
+    if: github.ref == 'refs/heads/main'
+    needs: lint-test
     uses: ./.github/workflows/workflow-build-container.yml
     with:
-      container-name: 'fastapi-example'
+      container-name: ${{ github.event.repository.name }}
       tag: ${{ github.sha }}
+    secrets: inherit
 
   deploy:
     needs: build
@@ -25,10 +28,11 @@ jobs:
         uses: google-github-actions/auth@v1
         with:
           credentials_json: ${{ secrets.LOUIS_GAR_JSON_KEY }}
+      
       - name: Deploy to Cloud Run
         uses: google-github-actions/deploy-cloudrun@v1.0.2
         with:
-          image: ${{ secrets.LOUIS_REGISTRY }}/fastapi-example:${{ github.sha }}
+          image: northamerica-northeast1-docker.pkg.dev/cfia-ai-lab-gcp-project/cfia-ai-lab-docker-repo/fastapi-example:${{ github.sha }}
           service: fastapi-example
           region: ${{ secrets.GCP_CLOUDRUN_REGION }}
           env_vars: ${{ secrets.ENV }}
