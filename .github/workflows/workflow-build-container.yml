@@ -20,7 +20,7 @@ jobs:
         with:
           registry: ${{ secrets.GCP_CLOUDRUN_REGION }}-docker.pkg.dev
           username: _json_key
-          password: ${{ secrets.LOUIS_GAR_JSON_KEY }}
+          password: ${{ secrets.AILAB_GAR_JSON_KEY }}
           
       # Checkout the current repository
       - uses: actions/checkout@v3
@@ -46,7 +46,7 @@ jobs:
           push: true
           # Build argument for React frontend
           build-args: REACT_APP_BACKEND_URL=${{ secrets.REACT_APP_BACKEND_URL }}
-          tags: ${{ secrets.GCP_CLOUDRUN_REGION }}-docker.pkg.dev/${{ secrets.LOUIS_REGISTRY }}/${{inputs.container-name}}:${{inputs.tag}}
+          tags: ${{ secrets.GCP_CLOUDRUN_REGION }}-docker.pkg.dev/${{ secrets.AILAB_REGISTRY }}/${{inputs.container-name}}:${{inputs.tag}}
           cache-from: type=local,src=/tmp/.buildx-cache
           cache-to: type=local,dest=/tmp/.buildx-cache-new
           
