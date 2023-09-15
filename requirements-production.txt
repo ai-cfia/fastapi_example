@@ -1,9 +1,10 @@
-fastapi==0.103.1
+fastapi
 uvicorn
-httpx==0.24.1
+httpx
 python-dotenv
 starlette
 itsdangerous
 PyJWT
 python-multipart
 cryptography
+python-decouple
