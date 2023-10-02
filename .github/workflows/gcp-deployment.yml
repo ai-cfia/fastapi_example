@@ -32,10 +32,7 @@ jobs:
     - name: Run tests with coverage
       run: |
         coverage run -m pytest
-        coverage report
-
-    - name: Upload coverage to Codecov
-      uses: codecov/codecov-action@v2
+        coverage report coverage report --show-missing
 
   build:
     needs: code-coverage
