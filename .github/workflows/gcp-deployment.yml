@@ -11,8 +11,34 @@ jobs:
     uses: ai-cfia/github-workflows/.github/workflows/workflow-lint-test-python.yml@main
     secrets: inherit
 
-  build:
+  code-coverage:
     needs: lint-test
+    runs-on: ubuntu-latest
+    steps: 
+    - name: Checkout code
+      uses: actions/checkout@v2
+
+    - name: Set up Python
+      uses: actions/setup-python@v2
+      with:
+        python-version: '3.11'
+
+    - name: Install dependencies
+      run: |
+        python -m pip install --upgrade pip
+        pip install -r requirements.txt
+        pip install coverage
+
+    - name: Run tests with coverage
+      run: |
+        coverage run -m pytest
+        coverage report
+
+    - name: Upload coverage to Codecov
+      uses: codecov/codecov-action@v2
+
+  build:
+    needs: code-coverage
     uses: ai-cfia/github-workflows/.github/workflows/workflow-build-container.yml@main
     with:
       container-name: ${{ github.event.repository.name }}
