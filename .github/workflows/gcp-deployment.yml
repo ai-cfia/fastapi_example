@@ -12,28 +12,8 @@ jobs:
     secrets: inherit
 
   code-coverage:
-    needs: lint-test
-    runs-on: ubuntu-latest
-    steps: 
-    - name: Checkout code
-      uses: actions/checkout@v2
-
-    - name: Set up Python
-      uses: actions/setup-python@v2
-      with:
-        python-version: '3.11'
-
-    - name: Install dependencies
-      run: |
-        python -m pip install --upgrade pip
-        pip install -r requirements.txt
-        pip install coverage
-        pip install coverage pytest
-
-    - name: Run tests with coverage
-      run: |
-        coverage run -m pytest
-        coverage report --show-missing --fail-under=60
+    uses : ai-cfia/github-workflows/.github/workflows/workflow-code-coverage-python.yml@redat97/issue4
+    secrets: inherit
 
   build:
     needs: code-coverage
