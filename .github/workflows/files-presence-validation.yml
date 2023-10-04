@@ -2,7 +2,7 @@ name: Check File Presence
 'on':
   push:
     branches:
-      - github-action-workflow
+      - redat97/issue14
   workflow_dispatch: null
 jobs:
   check-documentation:
