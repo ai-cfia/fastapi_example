@@ -1,0 +1,25 @@
+name: Check File Presence
+'on':
+  push:
+    branches:
+      - github-action-workflow
+  workflow_dispatch: null
+jobs:
+  check-documentation:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Check out code
+        uses: actions/checkout@v3
+      - name: Check for test_documentation.md
+        id: checkdoc
+        run: |
+          if [[ -f "test_documentation.md" ]]; then
+            echo "::set-output name=exists::true"
+          else
+            echo "::set-output name=exists::false"
+          fi
+        shell: bash
+      - name: Notify if documentation is missing
+        if: steps.checkdoc.outputs.exists == 'false'
+        run: |
+          echo "Test documentation is missing!"
