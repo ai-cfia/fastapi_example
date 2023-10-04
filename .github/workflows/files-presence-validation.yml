@@ -1,28 +1,13 @@
-name: Check File Presence
-'on':
+name: Validate File Presence
+
+on:
   push:
     branches:
       - redat97/issue14
-  workflow_dispatch: null
+  workflow_dispatch:
+
 jobs:
-  check-documentation:
-    runs-on: ubuntu-latest
-    steps:
-      - name: Check out code
-        uses: actions/checkout@v3
-
-      - name: Check for test_documentation.md
-        id: checkdoc
-        run: |
-          if [[ -f "test_documentation.md" ]]; then
-            echo "::set-output name=exists::true"
-          else
-            echo "Error: test_documentation.md does not exist!" >&2
-            exit 1        
-          fi
-        shell: bash
-
-      - name: Notify if documentation is missing
-        if: steps.checkdoc.outputs.exists == 'false'
-        run: |
-          echo "Test documentation is missing!"
+  file-validation:
+   uses: ai-cfia/github-workflows/.github/workflows/workflow-check-file-presence.yml@redat97/issue8
+   with:
+    files: '["test_documentation.md"]'
