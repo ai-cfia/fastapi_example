@@ -10,15 +10,18 @@ jobs:
     steps:
       - name: Check out code
         uses: actions/checkout@v3
+
       - name: Check for test_documentation.md
         id: checkdoc
         run: |
           if [[ -f "test_documentation.md" ]]; then
             echo "::set-output name=exists::true"
           else
-            echo "::set-output name=exists::false"
+            echo "Error: test_documentation.md does not exist!" >&2
+            exit 1        
           fi
         shell: bash
+
       - name: Notify if documentation is missing
         if: steps.checkdoc.outputs.exists == 'false'
         run: |
