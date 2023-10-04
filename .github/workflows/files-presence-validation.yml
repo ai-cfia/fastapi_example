@@ -9,4 +9,4 @@ jobs:
   file-validation:
    uses: ai-cfia/github-workflows/.github/workflows/workflow-check-file-presence.yml@redat97/issue8
    with:
-    files: 'test_documentation.md'
+    files: 'test_documentation.md, test_file.md'
