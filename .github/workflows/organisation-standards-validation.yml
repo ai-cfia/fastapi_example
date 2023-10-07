@@ -1,6 +1,6 @@
 name: Workflow to validate organization standards
 
-on: [push, pull_request]
+on: [push]
 
 jobs:
   validate-name:
@@ -65,17 +65,32 @@ jobs:
       if: always()
       shell: bash
 
-    - name: Check file presence
+    - name: Check for test_documentation.md
       run: |
-        FILES=("test_documentation.md" "manual_testing_plan.md" "setup_and_installation_guide.md")
-        
-        for file in "${FILES[@]}"; do
-          if [[ ! -f "$file" ]]; then
-            echo "Error: '$file' does not exist in the repository!" >&2
-            exit 1
-          else
-            echo "'$file' exists."
-          fi
-        done
+        FILE="test_documentation.md"
+        if [[ ! -f "$FILE" ]]; then
+          echo "Error: '$FILE' does not exist in the repository!" >&2
+          exit 1
+        fi
+      if: always()
+      shell: bash
+
+    - name: Check for manual_testing_plan.md
+      run: |
+        FILE="manual_testing_plan.md"
+        if [[ ! -f "$FILE" ]]; then
+          echo "Error: '$FILE' does not exist in the repository!" >&2
+          exit 1
+        fi
+      if: always()
+      shell: bash
+
+    - name: Check for setup_and_installation_guide.md
+      run: |
+        FILE="setup_and_installation_guide.md"
+        if [[ ! -f "$FILE" ]]; then
+          echo "Error: '$FILE' does not exist in the repository!" >&2
+          exit 1
+        fi
       if: always()
       shell: bash
