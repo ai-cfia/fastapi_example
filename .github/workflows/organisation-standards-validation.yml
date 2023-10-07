@@ -65,6 +65,9 @@ jobs:
       if: always()
       shell: bash
 
+    - name: Checkout code
+      uses: actions/checkout@v3
+
     - name: Check for README.md
       run: |
         FILE="README.md"
