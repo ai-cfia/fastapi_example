@@ -64,3 +64,18 @@ jobs:
         fi
       if: always()
       shell: bash
+
+    - name: Check file presence
+      run: |
+        FILES=("test_documentation.md" "manual_testing_plan.md" "setup_and_installation_guide.md")
+        
+        for file in "${FILES[@]}"; do
+          if [[ ! -f "$file" ]]; then
+            echo "Error: '$file' does not exist in the repository!" >&2
+            exit 1
+          else
+            echo "'$file' exists."
+          fi
+        done
+      if: always()
+      shell: bash
