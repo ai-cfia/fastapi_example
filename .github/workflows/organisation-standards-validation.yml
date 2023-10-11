@@ -3,7 +3,7 @@ name: Workflow to validate organization standards
 on:
   push:
     branches:
-      - main
+      - redat97/issue14
   workflow_dispatch:
 
 jobs:
