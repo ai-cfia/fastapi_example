@@ -3,9 +3,10 @@ name: Workflow to validate organization standards
 on:
   push:
     branches:
-      - redat97/issue14
+      - main
   workflow_dispatch:
 
 jobs:
   validate-org-standards:
     uses: ai-cfia/github-workflows/.github/workflows/workflow-repo-standards-validation.yml@redat97/issue8
+    secrets: inherit
