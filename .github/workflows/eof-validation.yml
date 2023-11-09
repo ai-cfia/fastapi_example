@@ -1,0 +1,12 @@
+name: Validate EOF presence
+
+on:
+  push:
+    branches:
+      - test-ruleset-branch
+  workflow_dispatch:
+
+jobs:
+  eof-validation:
+    uses: ai-cfia/github-workflows/.github/workflows/workflow-verification-eof.yml@23-create-workflow-to-verify-eof-line-presence
+    secrets: inherit
