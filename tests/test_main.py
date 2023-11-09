@@ -16,6 +16,6 @@ class TestFastAPIApp(unittest.TestCase):
         start_time = time.time()
         response = client.get("/")
         self.assertEqual(response.status_code, 200)
-        
+
         elapsed_time = time.time() - start_time
-        self.assertTrue(elapsed_time < 0.200)
+        self.assertTrue(elapsed_time < 0.200
