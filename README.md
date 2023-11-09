@@ -51,4 +51,3 @@ python -m unittest discover -s tests
 ### Customizing ASGI Server
 
 The project currently uses uvicorn as its ASGI server, as specified in the `requirements.txt` file. If you wish to use another ASGI server like `hypercorn` or `daphne`, simply update the `requirements.txt` file and modify the startup command accordingly in the `devcontainer.json` file and the `Dockerfile`. Make sure the server you choose is compatible with FastAPI.
-
