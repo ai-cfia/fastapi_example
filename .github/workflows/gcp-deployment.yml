@@ -3,7 +3,7 @@ name: Docker GCP deployment
 on:
   push:
     branches:
-      - github-action-workflow
+      - test-ruleset-branch
   workflow_dispatch:
 
 jobs:
