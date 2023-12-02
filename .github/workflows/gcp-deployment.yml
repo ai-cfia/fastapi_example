@@ -11,12 +11,9 @@ jobs:
     uses: ai-cfia/github-workflows/.github/workflows/workflow-lint-test-python.yml@main
     secrets: inherit
 
-  code-coverage:
-    uses : ai-cfia/github-workflows/.github/workflows/workflow-code-coverage-python.yml@main
-    secrets: inherit
-
   build:
-    needs: code-coverage
+    if: github.ref == 'refs/heads/main'
+    needs: lint-test
     uses: ai-cfia/github-workflows/.github/workflows/workflow-build-container.yml@main
     with:
       container-name: ${{ github.event.repository.name }}
@@ -24,6 +21,7 @@ jobs:
     secrets: inherit
 
   deploy:
+    if: github.ref == 'refs/heads/main'
     needs: build
     uses: ai-cfia/github-workflows/.github/workflows/workflow-deploy-gcp.yml@main
     with:
