@@ -7,6 +7,8 @@ on:
 jobs:
   lint-test:
     uses: ai-cfia/github-workflows/.github/workflows/workflow-lint-test-python.yml@redat97/issue4
+    with:
+      threshold: 0
     secrets: inherit
 
   build:
